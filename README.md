@@ -2,7 +2,13 @@
 
 ## Description
 
-A brief description of the plugin including a screenshot and/or a short video.
+A plugin to overlay chat messages when the chat area is not visible.
+
+## Next steps
+
+[ ] Better detection of whether the chat area is open or not (it now can only detect if the chat input is focused)
+[ ] Better positioning of messages: don't use a fixed position, do it relative to other elements in the interface
+[ ] Option to enable/disable the overlayed messages
 
 ## Building the Plugin
 
