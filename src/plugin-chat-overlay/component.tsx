@@ -1,4 +1,4 @@
-import { BbbPluginSdk, pluginLogger } from 'bigbluebutton-html-plugin-sdk';
+import { BbbPluginSdk, pluginLogger, ChatFormUiDataNames } from 'bigbluebutton-html-plugin-sdk';
 import * as React from 'react';
 import { useEffect, useState, useRef } from 'react';
 
@@ -12,7 +12,7 @@ interface PluginChatOverlayProps {
   pluginUuid: string;
 }
 
-const WORD_DISPLAY_DURATION_MS = 10000;
+const WORD_DISPLAY_DURATION_MS = 15000;
 const MESSAGE_MAX_AGE_MS = 60000;
 
 const extractWords = (text: string): string[] => {
@@ -33,6 +33,8 @@ React.ReactElement<PluginChatOverlayProps> {
     PUBLIC_CHAT_MESSAGES_SUBSCRIPTION,
   );
   const userListBasicInf = pluginApi.useUsersBasicInfo();
+  const currentChatFocused = pluginApi
+    .useUiData(ChatFormUiDataNames.CHAT_INPUT_IS_FOCUSED, { value: false });
 
   useEffect(() => {
     return () => {
@@ -117,10 +119,15 @@ React.ReactElement<PluginChatOverlayProps> {
     }
   };
 
+  // Do not render the overlay if the chat input is focused
+  if (currentChatFocused.value) {
+    return null;
+  }
+
   const messageListContainerStyle: React.CSSProperties = {
     position: 'fixed',
     bottom: '70px',
-    left: '140px',
+    left: '110px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
